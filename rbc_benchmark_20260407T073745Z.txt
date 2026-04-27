@@ -1,0 +1,137 @@
+==============================================================================
+  RBC Execution Workbench — Benchmark Report
+  Run: 20260407T073745Z
+  Hardware: arm  RAM: 8.6 GB  OS: macOS-26.3-arm64-arm-64bit-Mach-O
+  Python: 3.14.2
+  Quick mode: False
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  Group 1 — Admission Latency  (N=1000)
+──────────────────────────────────────────────────────────────────────────────
+  Metric                                                 mean      p50      p95      p99      max  (ms)
+  ──────────────────────────────────────────────────────────────────────────
+  1.1_action_intent_canonicalization                 mean=0.006 p50=0.006 p95=0.006 p99=0.007 max=0.008 ms
+  1.2_sha256_digest_computation                      mean=0.001 p50=0.001 p95=0.001 p99=0.001 max=0.001 ms
+  1.3_correspondence_form_build_and_validate         mean=0.016 p50=0.016 p95=0.017 p99=0.021 max=0.188 ms
+  1.4a_authority_policy_eval_simple                  mean=0.004 p50=0.004 p95=0.004 p99=0.004 max=0.006 ms
+  1.4b_authority_policy_eval_complex                 mean=0.004 p50=0.004 p95=0.004 p99=0.005 max=0.064 ms
+  1.5_warrant_mint_full                              mean=0.935 p50=0.848 p95=1.421 p99=2.301 max=5.127 ms
+  1.5_ed25519_sign_only                              mean=0.087 p50=0.087 p95=0.098 p99=0.106 max=0.120 ms
+  1.5_mldsa_sign_only                                mean=0.118 p50=0.101 p95=0.240 p99=0.319 max=0.414 ms
+  1.5_mint_approx_without_signatures                 mean=0.730 p50=— p95=— p99=— max=— ms
+  1.6_preflight_warden_check                         mean=0.281 p50=0.269 p95=0.311 p99=0.425 max=2.728 ms
+  1.7_execution_boundary_admission                   mean=0.794 p50=0.750 p95=0.969 p99=1.104 max=2.761 ms
+  1.8a_evr_burn_record_commit                        mean=0.142 p50=0.106 p95=0.257 p99=0.456 max=3.526 ms
+  1.8b_evr_execution_receipt_commit                  mean=0.149 p50=0.108 p95=0.258 p99=0.371 max=0.605 ms
+  1.8c_evr_receipt_state_commit                      mean=0.146 p50=0.108 p95=0.258 p99=0.381 max=1.259 ms
+  1.8d_evr_compound_commit                           mean=0.449 p50=0.450 p95=0.571 p99=0.852 max=11.973 ms
+  1.9_end_to_end_admission_cycle                     mean=2.207 p50=2.172 p95=2.470 p99=2.627 max=6.051 ms
+
+  L_total measured mean:        2.207 ms
+  Sum of components mean:       2.464 ms
+  Overhead (glue/stack):        -0.258 ms
+
+──────────────────────────────────────────────────────────────────────────────
+  Group 2 — Burn Store Concurrency
+──────────────────────────────────────────────────────────────────────────────
+  Total dual-success events (target 0): 0
+  All levels passed:                    ✅ YES
+
+     Level   Dual-succ   1-succ rate    1st-success mean     Reject mean
+  ────────────────────────────────────────────────────────────────────
+        10           0        100.0%               0.296 ms         0.092 ms
+       100           0        100.0%               2.310 ms         1.075 ms
+       500           0        100.0%               6.373 ms         1.016 ms
+     1,000           0        100.0%               6.217 ms         0.450 ms
+     5,000           0        100.0%               6.899 ms         0.377 ms
+    10,000           0        100.0%               6.701 ms         0.334 ms
+
+──────────────────────────────────────────────────────────────────────────────
+  Group 3 — Artifact Integrity
+──────────────────────────────────────────────────────────────────────────────
+  ✅  3.1_said_determinism
+        non_determinism_events: 0
+        timing — mean=0.032 p95=0.037 ms
+  ✅  3.2_said_collision_sensitivity
+        mutations_tested: 11  caused_said_change: 11
+  ✅  3.3_canonical_form_stability
+  ✅  3.4_chain_intact_verification_time
+        timing — mean=0.237 p95=0.509 ms
+
+──────────────────────────────────────────────────────────────────────────────
+  Group 4 — Fail-Closed Behaviour  (N=100)
+──────────────────────────────────────────────────────────────────────────────
+  ✅  4.1_hash_mismatch_rejection_rate
+          ✅ field=operation_digest                         rate=100.0%
+          ✅ field=targets[0].target_ref                    rate=100.0%
+          ✅ field=context_binding.zone_ref                 rate=100.0%
+          ✅ field=parameters.read_depth                    rate=100.0%
+          ✅ field=scope.max_records                        rate=100.0%
+  ✅  4.2_expired_token_rejection_rate
+  ✅  4.3_already_burned_token_rejection_rate
+        rejection_rate: 100.0%  (trials=100)
+  ✅  4.4_revoked_token_rejection_rate
+        rejection_rate: 100.0%  (trials=100)
+  ✅  4.5_invalid_signature_rejection_rate
+          ✅ case=empty_sig                                rate=100.0%
+          ✅ case=zero_sig                                 rate=100.0%
+          ✅ case=missing_sig_field                        rate=100.0%
+          ✅ case=missing_integrity                        rate=100.0%
+  ✅  4.6_malformed_action_intent_rejection_rate
+          ✅ case=missing_operation_digest                 rate=—%
+          ✅ case=missing_targets                          rate=—%
+          ✅ case=empty_targets_list                       rate=—%
+          ✅ case=invalid_status                           rate=—%
+          ✅ case=missing_context_binding_zone_ref         rate=—%
+          ✅ case=cbd_missing_prefix                       rate=—%
+          ✅ case=empty_dict                               rate=—%
+
+──────────────────────────────────────────────────────────────────────────────
+  Group 5 — Throughput and Scalability
+──────────────────────────────────────────────────────────────────────────────
+
+  5.1_sustained_admission_throughput
+    Throughput:   1203.46 admissions/sec
+
+  5.2_throughput_under_concurrent_load
+       N    admitted   elapsed_s      throughput    mean_lat
+    ────────────────────────────────────────────────────────
+       1         500       0.413         1210.23     0.826 ms
+       2        1000       0.830         1205.08     1.659 ms
+       4        2000       1.563         1279.46     3.117 ms
+       8        4000       3.409         1173.41     6.786 ms
+      16        8000       7.038         1136.71    14.014 ms
+      32       16000      14.213         1125.75    28.313 ms
+    Throughput degradation N=1→N_max: 7.0%
+
+  5.3_memory_footprint_per_admission_cycle
+    Peak memory:  mean=193.3 KB  p99=193.4 KB  max=193.6 KB
+
+──────────────────────────────────────────────────────────────────────────────
+  Group 6 — Signature Latency (Measured where available, Analytical fallback)
+──────────────────────────────────────────────────────────────────────────────
+  NOTE: Analytical estimates — NOT measured.
+
+  6.1_ed25519_sign_verify
+    sign   ≈ 0.055 ms  (Ed25519)
+    verify ≈ 0.135 ms
+    source: OpenSSL 3.x `openssl speed ed25519`; NIST SP 800-186 §3.1
+
+  6.2_ml_dsa_l3_sign_verify
+    sign   ≈ 0.112 ms  (ML-DSA Level 3 (ML-DSA-65 / Dilithium3))
+    verify ≈ 0.053 ms
+    source: Measured on target hardware via liboqs-python (C/liboqs).
+
+  6.3_total_signature_overhead
+    at mint:   0.167 ms total
+    at verify: 0.189 ms total
+
+  6.4_analytical_l_total_with_signatures
+    L_total (measured):         2.184 ms
+    L_total (with sigs):        2.540 ms
+    Additional sig overhead:    0.356 ms
+
+──────────────────────────────────────────────────────────────────────────────
+  Total elapsed: 110.6s
+==============================================================================

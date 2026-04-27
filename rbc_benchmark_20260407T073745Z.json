@@ -1,0 +1,840 @@
+{
+  "run_id": "20260407T073745Z",
+  "generated": "2026-04-07T07:37:45.924429+00:00",
+  "hardware": {
+    "python_version": "3.14.2",
+    "os": "macOS-26.3-arm64-arm-64bit-Mach-O",
+    "cpu": "arm",
+    "cpu_count": "8",
+    "ram_gb": "8.6"
+  },
+  "quick_mode": false,
+  "groups": {
+    "1": {
+      "group": "1",
+      "title": "Admission Latency",
+      "n_iter": 1000,
+      "metrics": [
+        {
+          "metric": "1.1_action_intent_canonicalization",
+          "description": "canonical_action_intent_digest_payload_v1() + canonical_json_bytes() \u2014 pre-image only.",
+          "n": 1000,
+          "mean_ms": 0.0056,
+          "p50_ms": 0.0056,
+          "p95_ms": 0.0059,
+          "p99_ms": 0.0074,
+          "max_ms": 0.0079,
+          "min_ms": 0.0052,
+          "stdev_ms": 0.0003
+        },
+        {
+          "metric": "1.2_sha256_digest_computation",
+          "description": "sha256_b64url_nopad(pre-computed canonical bytes) \u2014 hash cost only.",
+          "n": 1000,
+          "mean_ms": 0.0009,
+          "p50_ms": 0.0009,
+          "p95_ms": 0.001,
+          "p99_ms": 0.0012,
+          "max_ms": 0.0013,
+          "min_ms": 0.0008,
+          "stdev_ms": 0.0001
+        },
+        {
+          "metric": "1.3_correspondence_form_build_and_validate",
+          "description": "build_correspondence_form_v1() + validate_correspondence_form_v1().",
+          "n": 1000,
+          "mean_ms": 0.0162,
+          "p50_ms": 0.0161,
+          "p95_ms": 0.0173,
+          "p99_ms": 0.0208,
+          "max_ms": 0.1875,
+          "min_ms": 0.0146,
+          "stdev_ms": 0.0057
+        },
+        {
+          "metric": "1.4a_authority_policy_eval_simple",
+          "n": 1000,
+          "mean_ms": 0.0035,
+          "p50_ms": 0.0035,
+          "p95_ms": 0.0036,
+          "p99_ms": 0.0037,
+          "max_ms": 0.0059,
+          "min_ms": 0.0033,
+          "stdev_ms": 0.0001,
+          "description": "validate_authority_policy_v1() + scope cross-check (simple policy)."
+        },
+        {
+          "metric": "1.4b_authority_policy_eval_complex",
+          "n": 1000,
+          "mean_ms": 0.0036,
+          "p50_ms": 0.0035,
+          "p95_ms": 0.0036,
+          "p99_ms": 0.0046,
+          "max_ms": 0.064,
+          "min_ms": 0.0032,
+          "stdev_ms": 0.0021,
+          "description": "validate_authority_policy_v1() + scope cross-check (complex policy, 3 predicates)."
+        },
+        {
+          "metric": "1.5_warrant_mint_full",
+          "description": "mint_warrant() end-to-end including all implemented signatures. ML-DSA: included.",
+          "n": 1000,
+          "mean_ms": 0.9351,
+          "p50_ms": 0.8475,
+          "p95_ms": 1.4213,
+          "p99_ms": 2.3011,
+          "max_ms": 5.1265,
+          "min_ms": 0.7623,
+          "stdev_ms": 0.3135
+        },
+        {
+          "metric": "1.5_ed25519_sign_only",
+          "description": "Ed25519 private_key.sign(canonical_bytes) in isolation.",
+          "n": 1000,
+          "mean_ms": 0.0874,
+          "p50_ms": 0.0866,
+          "p95_ms": 0.0977,
+          "p99_ms": 0.1062,
+          "max_ms": 0.1202,
+          "min_ms": 0.0842,
+          "stdev_ms": 0.0045
+        },
+        {
+          "metric": "1.5_mldsa_sign_only",
+          "description": "ML-DSA (Dilithium3) sign in isolation \u2014 G-3 closed.",
+          "n": 1000,
+          "mean_ms": 0.118,
+          "p50_ms": 0.1012,
+          "p95_ms": 0.2398,
+          "p99_ms": 0.3185,
+          "max_ms": 0.4144,
+          "min_ms": 0.0655,
+          "stdev_ms": 0.0566
+        },
+        {
+          "metric": "1.5_mint_approx_without_signatures",
+          "description": "Approximation: mean(mint_full) \u2212 mean(ed25519) \u2212 mean(mldsa). ML-DSA measured.",
+          "mean_ms": 0.7297,
+          "mldsa_available": true
+        },
+        {
+          "metric": "1.6_preflight_warden_check",
+          "description": "warden_check() \u2014 non-authorising preflight; same warrant dict reused.",
+          "n": 1000,
+          "mean_ms": 0.2805,
+          "p50_ms": 0.269,
+          "p95_ms": 0.3113,
+          "p99_ms": 0.4247,
+          "max_ms": 2.7284,
+          "min_ms": 0.2506,
+          "stdev_ms": 0.0954
+        },
+        {
+          "metric": "1.7_execution_boundary_admission",
+          "description": "warden_admit() \u2014 signature verify + atomic burn + ADO production.",
+          "n": 1000,
+          "mean_ms": 0.7944,
+          "p50_ms": 0.7498,
+          "p95_ms": 0.969,
+          "p99_ms": 1.104,
+          "max_ms": 2.7613,
+          "min_ms": 0.6957,
+          "stdev_ms": 0.1255
+        },
+        {
+          "metric": "1.8a_evr_burn_record_commit",
+          "n": 1000,
+          "mean_ms": 0.1423,
+          "p50_ms": 0.1058,
+          "p95_ms": 0.2566,
+          "p99_ms": 0.4556,
+          "max_ms": 3.526,
+          "min_ms": 0.0917,
+          "stdev_ms": 0.1605,
+          "description": "Write Burn Record (B)."
+        },
+        {
+          "metric": "1.8b_evr_execution_receipt_commit",
+          "n": 1000,
+          "mean_ms": 0.1494,
+          "p50_ms": 0.1081,
+          "p95_ms": 0.2575,
+          "p99_ms": 0.3711,
+          "max_ms": 0.6045,
+          "min_ms": 0.0925,
+          "stdev_ms": 0.0737,
+          "description": "Write Execution Receipt (ER)."
+        },
+        {
+          "metric": "1.8c_evr_receipt_state_commit",
+          "n": 1000,
+          "mean_ms": 0.1463,
+          "p50_ms": 0.1078,
+          "p95_ms": 0.258,
+          "p99_ms": 0.3808,
+          "max_ms": 1.259,
+          "min_ms": 0.092,
+          "stdev_ms": 0.0816,
+          "description": "Write Receipt State (RS)."
+        },
+        {
+          "metric": "1.8d_evr_compound_commit",
+          "n": 1000,
+          "mean_ms": 0.4486,
+          "p50_ms": 0.4499,
+          "p95_ms": 0.5711,
+          "p99_ms": 0.8523,
+          "max_ms": 11.9727,
+          "min_ms": 0.2578,
+          "stdev_ms": 0.3854,
+          "description": "Compound: B + ER + RS."
+        },
+        {
+          "metric": "1.9_end_to_end_admission_cycle",
+          "description": "Wall-clock L_total = L_eval + L_mint + L_burn + L_evr.",
+          "n": 1000,
+          "mean_ms": 2.2067,
+          "p50_ms": 2.1725,
+          "p95_ms": 2.4702,
+          "p99_ms": 2.6274,
+          "max_ms": 6.0515,
+          "min_ms": 1.938,
+          "stdev_ms": 0.2051,
+          "sum_of_components_mean_ms": 2.4642,
+          "overhead_mean_ms": -0.2575
+        }
+      ],
+      "elapsed_seconds": 7.21
+    },
+    "2": {
+      "group": "2",
+      "title": "Burn Store Concurrency",
+      "trials_per_level": 30,
+      "concurrency_levels": [
+        10,
+        100,
+        500,
+        1000,
+        5000,
+        10000
+      ],
+      "correctness_summary": {
+        "total_dual_success_events": 0,
+        "all_levels_passed": true,
+        "design_target": "zero dual-success events at all concurrency levels"
+      },
+      "implementation_note": "Burn atomicity provided by os.open(O_CREAT|O_EXCL) \u2014 OS-level mutual exclusion. Concurrency levels > 200 are split into waves of 200 threads (macOS per-process thread limit). Each wave races at the OS layer; post-first-wave attempts are correctly rejected. Python GIL limits true CPU parallelism but syscalls release the GIL, so threads DO race at the filesystem layer.  This test is valid for single-process thread concurrency.  Multi-process and distributed scenarios are out of scope for the prototype and must be addressed before production deployment (Risk Register \u00a74.3 gap).",
+      "metrics": [
+        {
+          "concurrency_level": 10,
+          "dual_success_count": 0,
+          "dual_success_target": 0,
+          "dual_success_passed": true,
+          "single_success_rate_pct": 100.0,
+          "single_success_target_pct": 100.0,
+          "single_success_passed": true,
+          "first_success_latency": {
+            "n": 30,
+            "mean_ms": 0.2958,
+            "p50_ms": 0.2763,
+            "p95_ms": 0.4173,
+            "p99_ms": 0.4461,
+            "max_ms": 0.4538,
+            "min_ms": 0.2414,
+            "stdev_ms": 0.0551
+          },
+          "rejection_latency": {
+            "n": 270,
+            "mean_ms": 0.0918,
+            "p50_ms": 0.0905,
+            "p95_ms": 0.1573,
+            "p99_ms": 0.1965,
+            "max_ms": 0.2121,
+            "min_ms": 0.0102,
+            "stdev_ms": 0.0387
+          },
+          "trials": 30
+        },
+        {
+          "concurrency_level": 100,
+          "dual_success_count": 0,
+          "dual_success_target": 0,
+          "dual_success_passed": true,
+          "single_success_rate_pct": 100.0,
+          "single_success_target_pct": 100.0,
+          "single_success_passed": true,
+          "first_success_latency": {
+            "n": 30,
+            "mean_ms": 2.3101,
+            "p50_ms": 2.295,
+            "p95_ms": 2.4229,
+            "p99_ms": 2.5749,
+            "max_ms": 2.6309,
+            "min_ms": 2.1998,
+            "stdev_ms": 0.0803
+          },
+          "rejection_latency": {
+            "n": 2970,
+            "mean_ms": 1.0754,
+            "p50_ms": 1.0873,
+            "p95_ms": 1.3352,
+            "p99_ms": 1.4689,
+            "max_ms": 2.3157,
+            "min_ms": 0.0092,
+            "stdev_ms": 0.2349
+          },
+          "trials": 30
+        },
+        {
+          "concurrency_level": 500,
+          "dual_success_count": 0,
+          "dual_success_target": 0,
+          "dual_success_passed": true,
+          "single_success_rate_pct": 100.0,
+          "single_success_target_pct": 100.0,
+          "single_success_passed": true,
+          "first_success_latency": {
+            "n": 30,
+            "mean_ms": 6.3727,
+            "p50_ms": 6.5726,
+            "p95_ms": 7.2454,
+            "p99_ms": 7.2674,
+            "max_ms": 7.2759,
+            "min_ms": 4.6637,
+            "stdev_ms": 0.7749
+          },
+          "rejection_latency": {
+            "n": 14970,
+            "mean_ms": 1.0165,
+            "p50_ms": 0.029,
+            "p95_ms": 2.739,
+            "p99_ms": 3.1549,
+            "max_ms": 7.2502,
+            "min_ms": 0.0091,
+            "stdev_ms": 1.1776
+          },
+          "trials": 30
+        },
+        {
+          "concurrency_level": 1000,
+          "dual_success_count": 0,
+          "dual_success_target": 0,
+          "dual_success_passed": true,
+          "single_success_rate_pct": 100.0,
+          "single_success_target_pct": 100.0,
+          "single_success_passed": true,
+          "first_success_latency": {
+            "n": 30,
+            "mean_ms": 6.2173,
+            "p50_ms": 6.677,
+            "p95_ms": 7.2003,
+            "p99_ms": 7.2162,
+            "max_ms": 7.2222,
+            "min_ms": 2.6182,
+            "stdev_ms": 1.1575
+          },
+          "rejection_latency": {
+            "n": 29970,
+            "mean_ms": 0.4497,
+            "p50_ms": 0.0263,
+            "p95_ms": 3.2346,
+            "p99_ms": 5.2107,
+            "max_ms": 8.8227,
+            "min_ms": 0.0092,
+            "stdev_ms": 1.1167
+          },
+          "trials": 30
+        },
+        {
+          "concurrency_level": 5000,
+          "dual_success_count": 0,
+          "dual_success_target": 0,
+          "dual_success_passed": true,
+          "single_success_rate_pct": 100.0,
+          "single_success_target_pct": 100.0,
+          "single_success_passed": true,
+          "first_success_latency": {
+            "n": 30,
+            "mean_ms": 6.8992,
+            "p50_ms": 6.9176,
+            "p95_ms": 7.2746,
+            "p99_ms": 7.3266,
+            "max_ms": 7.3468,
+            "min_ms": 6.3983,
+            "stdev_ms": 0.2823
+          },
+          "rejection_latency": {
+            "n": 149970,
+            "mean_ms": 0.3765,
+            "p50_ms": 0.0262,
+            "p95_ms": 3.1804,
+            "p99_ms": 5.411,
+            "max_ms": 20.6723,
+            "min_ms": 0.0089,
+            "stdev_ms": 1.1386
+          },
+          "trials": 30
+        },
+        {
+          "concurrency_level": 10000,
+          "dual_success_count": 0,
+          "dual_success_target": 0,
+          "dual_success_passed": true,
+          "single_success_rate_pct": 100.0,
+          "single_success_target_pct": 100.0,
+          "single_success_passed": true,
+          "first_success_latency": {
+            "n": 30,
+            "mean_ms": 6.7013,
+            "p50_ms": 6.9572,
+            "p95_ms": 7.5879,
+            "p99_ms": 9.6621,
+            "max_ms": 10.4583,
+            "min_ms": 3.8063,
+            "stdev_ms": 1.1747
+          },
+          "rejection_latency": {
+            "n": 299970,
+            "mean_ms": 0.3336,
+            "p50_ms": 0.026,
+            "p95_ms": 3.0071,
+            "p99_ms": 5.3431,
+            "max_ms": 13.7204,
+            "min_ms": 0.009,
+            "stdev_ms": 1.0426
+          },
+          "trials": 30
+        }
+      ],
+      "elapsed_seconds": 32.81
+    },
+    "3": {
+      "group": "3",
+      "title": "Artifact Integrity",
+      "n_iter": 1000,
+      "metrics": [
+        {
+          "metric": "3.1_said_determinism",
+          "description": "python_said_generate() called 1000\u00d7 on identical input; zero unique-SAID count above 1 = deterministic.",
+          "n_invocations": 1000,
+          "unique_said_values": 1,
+          "non_determinism_events": 0,
+          "passed": true,
+          "said_sample": "EMIZhPgGnvTvWIgMMio-ACl8aQOesidUHx5Dn6WhdiBX",
+          "n": 1000,
+          "mean_ms": 0.0324,
+          "p50_ms": 0.0309,
+          "p95_ms": 0.0371,
+          "p99_ms": 0.0465,
+          "max_ms": 0.2252,
+          "min_ms": 0.0295,
+          "stdev_ms": 0.0096
+        },
+        {
+          "metric": "3.2_said_collision_sensitivity",
+          "description": "Single-field mutations \u2014 confirm SAID changes for every mutation.",
+          "original_said": "EJUgzdXhuMVJpln_tjGzqka9TpI5aXF0zLYrHAAD-8-r",
+          "mutations_tested": 11,
+          "mutations_caused_said_change": 11,
+          "failures": [],
+          "passed": true
+        },
+        {
+          "metric": "3.3_canonical_form_stability",
+          "description": "Two semantically identical Action Intents with different field-insertion order. Validates sorted-key serialization invariant in digests.py.",
+          "n_pairs_tested": 100,
+          "canonical_json_mismatches": 0,
+          "said_mismatches": 0,
+          "passed": true
+        },
+        {
+          "metric": "3.4_chain_intact_verification_time",
+          "description": "Time to traverse W_\u03c4 \u2192 B \u2192 ER \u2192 RS and re-compute all chain digests. Each iteration reads from disk (no caching). integrity_failures should be zero.",
+          "n_chains_verified": 200,
+          "integrity_failures": 0,
+          "passed": true,
+          "n": 200,
+          "mean_ms": 0.2367,
+          "p50_ms": 0.1846,
+          "p95_ms": 0.5094,
+          "p99_ms": 0.7922,
+          "max_ms": 2.6154,
+          "min_ms": 0.1665,
+          "stdev_ms": 0.222
+        }
+      ],
+      "elapsed_seconds": 0.47
+    },
+    "4": {
+      "group": "4",
+      "title": "Fail-Closed Behaviour",
+      "n_trials": 100,
+      "metrics": [
+        {
+          "metric": "4.1_hash_mismatch_rejection_rate",
+          "description": "Modified AI vs stored warrant binding digest.",
+          "overall_passed": true,
+          "field_results": [
+            {
+              "field": "operation_digest",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            },
+            {
+              "field": "targets[0].target_ref",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            },
+            {
+              "field": "context_binding.zone_ref",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            },
+            {
+              "field": "parameters.read_depth",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            },
+            {
+              "field": "scope.max_records",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            }
+          ]
+        },
+        {
+          "metric": "4.2_expired_token_rejection_rate",
+          "description": "Expired warrant presented. warden_admit() gate tested directly (requires G-2 patch). verify_warrant() gate also tested as secondary check.",
+          "g2_patch_detected": true,
+          "trials": 100,
+          "warden_admit_rejections": 100,
+          "warden_admit_rejection_rate_pct": 100.0,
+          "verify_warrant_rejection_rate_pct": 100.0,
+          "passed": true,
+          "gap_note": null
+        },
+        {
+          "metric": "4.3_already_burned_token_rejection_rate",
+          "description": "Re-presentation of previously admitted (burned) warrant. Tests I2 (burned \u2264 once).",
+          "trials": 100,
+          "rejections": 100,
+          "rejection_rate_pct": 100.0,
+          "passed": true
+        },
+        {
+          "metric": "4.4_revoked_token_rejection_rate",
+          "description": "Warrant revoked via revocation_store, then presented to warden_admit(). G-1 now closed: revocation_store.py present.",
+          "g1_patch_detected": true,
+          "trials": 100,
+          "rejections": 100,
+          "false_admits": 0,
+          "rejection_rate_pct": 100.0,
+          "passed": true,
+          "gap_note": null
+        },
+        {
+          "metric": "4.5_invalid_signature_rejection_rate",
+          "description": "Corrupted or absent Ed25519 signature presented to warden_admit().",
+          "overall_passed": true,
+          "case_results": [
+            {
+              "case": "empty_sig",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            },
+            {
+              "case": "zero_sig",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            },
+            {
+              "case": "missing_sig_field",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            },
+            {
+              "case": "missing_integrity",
+              "trials": 100,
+              "rejections": 100,
+              "rejection_rate_pct": 100.0,
+              "passed": true
+            }
+          ]
+        },
+        {
+          "metric": "4.6_malformed_action_intent_rejection_rate",
+          "description": "Structurally invalid Action Intents rejected by validate_action_intent_v1().",
+          "overall_passed": true,
+          "case_results": [
+            {
+              "case": "missing_operation_digest",
+              "validate_rejected": true,
+              "passed": true
+            },
+            {
+              "case": "missing_targets",
+              "validate_rejected": true,
+              "passed": true
+            },
+            {
+              "case": "empty_targets_list",
+              "validate_rejected": true,
+              "passed": true
+            },
+            {
+              "case": "invalid_status",
+              "validate_rejected": true,
+              "passed": true
+            },
+            {
+              "case": "missing_context_binding_zone_ref",
+              "validate_rejected": true,
+              "passed": true
+            },
+            {
+              "case": "cbd_missing_prefix",
+              "validate_rejected": true,
+              "passed": true
+            },
+            {
+              "case": "empty_dict",
+              "validate_rejected": true,
+              "passed": true
+            }
+          ]
+        }
+      ],
+      "elapsed_seconds": 1.63
+    },
+    "5": {
+      "group": "5",
+      "title": "Throughput and Scalability",
+      "metrics": [
+        {
+          "metric": "5.1_sustained_admission_throughput",
+          "description": "Max admissions/second over 5.0s window, single thread. Approximation of T_max(CS) = 1/L_burn(CS). Burn Store (O_CREAT|O_EXCL filesystem) is the expected bottleneck.",
+          "admitted_count": 2000,
+          "elapsed_seconds": 1.662,
+          "throughput_admissions_per_sec": 1203.46,
+          "per_admission_latency": {
+            "n": 2000,
+            "mean_ms": 0.8304,
+            "p50_ms": 0.7994,
+            "p95_ms": 0.9659,
+            "p99_ms": 1.013,
+            "max_ms": 3.1523,
+            "min_ms": 0.692,
+            "stdev_ms": 0.1101
+          }
+        },
+        {
+          "metric": "5.2_throughput_under_concurrent_load",
+          "description": "Throughput at concurrency N = {1,2,4,8,16,32}. Burn Store (filesystem) expected to be the scaling bottleneck. Python GIL partially released during I/O syscalls.",
+          "throughput_degradation_pct_n1_to_nmax": 7.0,
+          "bottleneck_note": "O_CREAT|O_EXCL on the local filesystem is the contended resource. A production linearizable store (e.g. Redis SETNX) would change this profile.",
+          "level_results": [
+            {
+              "concurrency": 1,
+              "warrants_presented": 500,
+              "admitted": 500,
+              "elapsed_seconds": 0.413,
+              "throughput_admissions_per_sec": 1210.23,
+              "per_admission_latency": {
+                "n": 500,
+                "mean_ms": 0.8256,
+                "p50_ms": 0.7593,
+                "p95_ms": 0.9744,
+                "p99_ms": 1.0945,
+                "max_ms": 5.4788,
+                "min_ms": 0.6775,
+                "stdev_ms": 0.2427
+              }
+            },
+            {
+              "concurrency": 2,
+              "warrants_presented": 1000,
+              "admitted": 1000,
+              "elapsed_seconds": 0.83,
+              "throughput_admissions_per_sec": 1205.08,
+              "per_admission_latency": {
+                "n": 1000,
+                "mean_ms": 1.659,
+                "p50_ms": 1.6555,
+                "p95_ms": 2.0203,
+                "p99_ms": 2.1876,
+                "max_ms": 5.4328,
+                "min_ms": 0.915,
+                "stdev_ms": 0.2706
+              }
+            },
+            {
+              "concurrency": 4,
+              "warrants_presented": 2000,
+              "admitted": 2000,
+              "elapsed_seconds": 1.563,
+              "throughput_admissions_per_sec": 1279.46,
+              "per_admission_latency": {
+                "n": 2000,
+                "mean_ms": 3.1167,
+                "p50_ms": 3.0318,
+                "p95_ms": 4.012,
+                "p99_ms": 4.771,
+                "max_ms": 10.0232,
+                "min_ms": 1.4714,
+                "stdev_ms": 0.5673
+              }
+            },
+            {
+              "concurrency": 8,
+              "warrants_presented": 4000,
+              "admitted": 4000,
+              "elapsed_seconds": 3.409,
+              "throughput_admissions_per_sec": 1173.41,
+              "per_admission_latency": {
+                "n": 4000,
+                "mean_ms": 6.7864,
+                "p50_ms": 6.7246,
+                "p95_ms": 8.9205,
+                "p99_ms": 10.3061,
+                "max_ms": 25.9465,
+                "min_ms": 0.7331,
+                "stdev_ms": 1.3724
+              }
+            },
+            {
+              "concurrency": 16,
+              "warrants_presented": 8000,
+              "admitted": 8000,
+              "elapsed_seconds": 7.038,
+              "throughput_admissions_per_sec": 1136.71,
+              "per_admission_latency": {
+                "n": 8000,
+                "mean_ms": 14.0145,
+                "p50_ms": 13.6956,
+                "p95_ms": 19.0753,
+                "p99_ms": 23.9329,
+                "max_ms": 47.0448,
+                "min_ms": 0.7383,
+                "stdev_ms": 3.3009
+              }
+            },
+            {
+              "concurrency": 32,
+              "warrants_presented": 16000,
+              "admitted": 16000,
+              "elapsed_seconds": 14.213,
+              "throughput_admissions_per_sec": 1125.75,
+              "per_admission_latency": {
+                "n": 16000,
+                "mean_ms": 28.3134,
+                "p50_ms": 27.8642,
+                "p95_ms": 38.0311,
+                "p99_ms": 44.2992,
+                "max_ms": 69.9096,
+                "min_ms": 1.2067,
+                "stdev_ms": 5.6523
+              }
+            }
+          ]
+        },
+        {
+          "metric": "5.3_memory_footprint_per_admission_cycle",
+          "description": "Peak and net memory allocated per complete admission cycle (mint \u2192 preflight \u2192 admit \u2192 RS write) via tracemalloc. Includes Python runtime overhead.",
+          "n_cycles": 100,
+          "peak_kb": {
+            "n": 100,
+            "mean_ms": 193.2689,
+            "p50_ms": 193.2554,
+            "p95_ms": 193.3574,
+            "p99_ms": 193.3597,
+            "max_ms": 193.584,
+            "min_ms": 193.0869,
+            "stdev_ms": 0.0671
+          },
+          "net_kb_at_cycle_end": {
+            "n": 100,
+            "mean_ms": 51.2068,
+            "p50_ms": 51.2119,
+            "p95_ms": 51.3271,
+            "p99_ms": 51.3313,
+            "max_ms": 51.7412,
+            "min_ms": 50.999,
+            "stdev_ms": 0.0948
+          }
+        }
+      ],
+      "elapsed_seconds": 68.32
+    },
+    "6": {
+      "group": "6",
+      "title": "Signature Latency (Measured where available, Analytical fallback)",
+      "metrics": [
+        {
+          "metric": "6.1_ed25519_sign_verify",
+          "algorithm": "Ed25519",
+          "measured": false,
+          "sign_ms": 0.055,
+          "verify_ms": 0.135,
+          "source": "OpenSSL 3.x `openssl speed ed25519`; NIST SP 800-186 \u00a73.1",
+          "n": "analytical"
+        },
+        {
+          "metric": "6.2_ml_dsa_l3_sign_verify",
+          "algorithm": "ML-DSA Level 3 (ML-DSA-65 / Dilithium3)",
+          "standard": "NIST FIPS 204",
+          "measured": true,
+          "sign_ms": 0.1124,
+          "verify_ms": 0.0535,
+          "source": "Measured on target hardware via liboqs-python (C/liboqs).",
+          "n": 1000
+        },
+        {
+          "metric": "6.3_total_signature_overhead",
+          "description": "Combined Ed25519 + ML-DSA-L3 overhead per admission cycle.",
+          "at_mint": {
+            "ed25519_sign_ms": 0.055,
+            "ml_dsa_sign_ms": 0.1124,
+            "total_ms": 0.1674
+          },
+          "at_verify": {
+            "ed25519_verify_ms": 0.135,
+            "ml_dsa_verify_ms": 0.0535,
+            "total_ms": 0.1885
+          },
+          "both_measured": false,
+          "prototype_status": "Ed25519 measured; ML-DSA analytical (G-3 open \u2014 install dilithium-py)."
+        },
+        {
+          "metric": "6.4_analytical_l_total_with_signatures",
+          "l_eval_ms": 0.0056,
+          "l_mint_ms_measured": 0.9351,
+          "l_mint_ms_with_sig": 1.1025,
+          "l_burn_ms_measured": 0.7944,
+          "l_burn_ms_with_sig": 0.9829,
+          "l_evr_ms": 0.4486,
+          "l_total_measured_ms": 2.1837,
+          "l_total_with_sigs_ms": 2.5396,
+          "additional_sig_overhead_ms": 0.3559,
+          "both_measured": false
+        }
+      ]
+    }
+  },
+  "total_elapsed_seconds": 110.61
+}
