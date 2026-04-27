@@ -216,3 +216,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Benchmark results (submitted separately, not via repo)
+results/
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Local configuration and secrets
+*.env
+config.local.*
+
+# Temporary test outputs
+*.tmp
+*.log
+
+# IDE project files
+.idea/
+.vscode/
