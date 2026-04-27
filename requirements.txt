@@ -1,0 +1,14 @@
+# Execution Warrant Prototype — Pinned Dependencies
+# Python 3.14.2 required
+# Platform tested: Apple Silicon arm64, macOS 26.3
+# Run ID: 20260407T073745Z
+
+# SAID construction — Blake3-256 hash
+blake3==1.0.8
+
+# Ed25519 signing and verification
+cryptography==46.0.6
+
+# ML-DSA-65 signing and verification (requires native liboqs C library)
+# Installation: https://github.com/open-quantum-safe/liboqs-python
+liboqs-python==0.14.1
